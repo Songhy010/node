@@ -39,8 +39,8 @@ exports.register = async (req,res,next)=>{
 }
 
 exports.upload = async (req,res,next)=>{
-    const imgName = req.body.img_name;
-    res.send({imgName});
+    const imgName = req.files;
+    res.send(imgName);
 }
 
 exports.test = async (req,res,next)=>{
