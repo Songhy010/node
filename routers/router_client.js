@@ -9,8 +9,6 @@ const { fileUpload } = require('../util/multer_config');
 
 const uploadReportCardPdf = fileUpload.array('avatar');
 
-router.post("/login",clientController.login);
-router.post("/register",clientController.register);
 router.post("/upload",uploadReportCardPdf,clientController.upload);
 router.get("/test",clientController.test);
 module.exports = router;
