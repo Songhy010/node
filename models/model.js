@@ -18,12 +18,37 @@ exports.register= async (user_fname,user_lname,user_name,user_password,user_addr
     return {code:200,message:"success"};
 }
 
-exports.login = async (user_name)=>{
+exports.login = async (user_name,user_phone)=>{
     const query = await db.query(script.login,{
         replacements: {
-            user_name
+            user_name,
+            user_phone
           },
           type: db.QueryTypes.SELECT
     });
     return query[0];
+}
+
+exports.changePassword = async (user_phone,new_pass)=>{
+    const query = await db.query(script.changePassword,{
+        replacements: {
+            user_phone,
+            new_pass
+          },
+    });
+    return {code:200,message:"success"};
+}
+
+exports.updateProfile= async (user_fname,user_lname,user_address,user_email,user_avatar,user_phone)=>{
+    const query = await db.query(script.updateProfile,{
+        replacements: {
+            user_fname,
+            user_lname,
+            user_address,
+            user_email,
+            user_avatar,
+            user_phone
+          },
+    });
+    return {code:200,message:"success"};
 }

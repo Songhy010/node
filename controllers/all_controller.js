@@ -21,11 +21,11 @@ exports.register = async (req,res,next)=>{
         const user_status = req.body.user_status;
         const user_avatar = req.body.user_avatar;
 
-        const user = await models.login(user_name);
+        const user = await models.login(user_name,user_phone);
 
         if(user){
             const err = Error("User existed!");
-            err.code = 422;
+            err.code = 0;
             next(err);
         }else{
             const hashPass = await bcrypt.hash(user_password,12);
@@ -33,8 +33,8 @@ exports.register = async (req,res,next)=>{
             res.send(data);
         }
     } catch (error) {
-        const err = Error("Missing param!");
-        err.code = 422;
+        const err = Error("Bad Request");
+        err.code = 400;
         next(err);
     }
 }
@@ -43,7 +43,7 @@ exports.login = async (req,res,next)=>{
     try {
         const user_name = req.body.user_name;
         const user_password = req.body.user_password;
-        const data = await models.login(user_name);
+        const data = await models.login(user_name,user_name);
         if(data){
             const isEqule = await bcrypt.compare(user_password,data.user_password);
             if(isEqule){
@@ -51,26 +51,77 @@ exports.login = async (req,res,next)=>{
                     id : data.user_id,
                     type : data.user_type
                 });
-                res.send({data,token});
+                res.send({data,token,code:200});
             }else{
                 const err = Error("Incorrect Password");
-                err.code = 422;
+                err.code = -1;
                 next(err);
             }
         }else{
             const err = Error("Incorrect Username!");
-            err.code = 422;
+            err.code = -1;
             next(err);
         }
 
     } catch (error) {
-        const err = Error("Missing Param!");
-        err.code = 422;
+        const err = Error("Bad Request!");
+        err.code = 400;
+        next(err);
+    }
+}
+
+exports.changePassword = async (req,res,next)=>{
+    try {
+        const user_phone = req.body.user_phone;
+        const new_pass = req.body.new_pass;
+        const old_pass = req.body.old_pass;
+    
+        const user = await models.login(user_phone,user_phone);
+        const isEqule = await bcrypt.compare(old_pass,user.user_password);
+        if(isEqule){
+            const hashPass = await bcrypt.hash(new_pass,12);
+            const data = await models.changePassword(user_phone,hashPass);
+            res.send(data);
+        }else{
+            const err = Error("Incorrect Password");
+            err.code = -1;
+            next(err);
+        } 
+    } catch (error) {
+        const err = Error("Bad Request!");
+        err.code = 400;
+        next(err);
+    }
+};
+
+exports.updateProfile = async (req,res,next)=>{
+    try {
+        const user_fname = req.body.user_fname;
+        const user_lname = req.body.user_lname;
+        const user_address = req.body.user_address;
+        const user_phone = req.body.user_phone;
+        const user_email = req.body.user_email;
+        const user_avatar = req.body.user_avatar;
+
+        const data = await models.updateProfile(user_fname,user_lname,user_address,user_email,user_avatar,user_phone);
+        const user = await models.login(user_phone,user_phone);
+        
+        if(user){
+           res.send({user,code:200}); 
+        }else{
+            const err = Error("Incorrect phone number");
+            err.code = -1;
+            next(err);
+        }
+    } catch (error) {
+        const err = Error("Bad Request!");
+        err.code = 400;
         next(err);
     }
 }
 
 exports.test = async (req,res,next)=>{
     const id = req.payload.id;
+    const data = models.changePassword()
     res.send({id});
 }
