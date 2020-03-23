@@ -90,11 +90,11 @@ exports.login = async (req,res,next)=>{
 
 exports.changePassword = async (req,res,next)=>{
     try {
+        const user_phone = req.body.user_phone;
         const user_id = req.payload.id;
         const new_pass = req.body.new_pass;
         const old_pass = req.body.old_pass;
         const user_type = req.payload.type;
-        console.log(user_id);
     
         const user = await models.login(user_phone,user_phone,user_type);
         const isEqule = await bcrypt.compare(old_pass,user.user_password);
