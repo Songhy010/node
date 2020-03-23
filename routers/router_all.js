@@ -16,6 +16,8 @@ router.post("/register",basic,allController.register);
 router.post("/login",basic,allController.login);
 router.post("/change_password",jwt,allController.changePassword);
 router.post("/update_profile",jwt,allController.updateProfile);
+router.post("/get_category",jwt,allController.getCategory);
+
 
 router.get("/test",jwt,allController.test);
 

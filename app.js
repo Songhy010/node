@@ -1,25 +1,22 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+
 const routerClient = require("./routers/router_client");
 const routerAll = require("./routers/router_all");
 const routerAdmin = require("./routers/router_admin");
+const controller = require('./controllers/all_controller');
+const db = require("./util/db_config");
 
 const port = process.env.PORT || 3000;
-
-
-const db = require("./util/db_config");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.get('/',(req,res,next)=>{
-  res.send({data:"Welcome to Category"});
-})
+app.get('/',controller.test);
 app.use("/api/client",routerClient);
 app.use("/api/all",routerAll);
 app.use("/api/admin",routerAdmin);
-
 app.use(express.static("uploads"));
 
 app.use((req, res, next) => {

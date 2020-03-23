@@ -18,21 +18,22 @@ exports.register= async (user_fname,user_lname,user_name,user_password,user_addr
     return {code:200,message:"success"};
 }
 
-exports.login = async (user_name,user_phone)=>{
+exports.login = async (user_name,user_phone,user_type)=>{
     const query = await db.query(script.login,{
         replacements: {
             user_name,
-            user_phone
+            user_phone,
+            user_type
           },
           type: db.QueryTypes.SELECT
     });
     return query[0];
 }
 
-exports.changePassword = async (user_phone,new_pass)=>{
+exports.changePassword = async (user_id,new_pass)=>{
     const query = await db.query(script.changePassword,{
         replacements: {
-            user_phone,
+            user_id,
             new_pass
           },
     });
@@ -64,4 +65,14 @@ exports.uploadCategory = async (category_id,category_title_km,category_desc_km,c
           },
     });
     return {code:200,message:"success"};
+}
+
+exports.getCategory = async (lang_id)=>{
+    const query = await db.query(script.getCategory,{
+        replacements: {
+            lang_id
+          },
+          type: db.QueryTypes.SELECT
+    });
+    return query;
 }

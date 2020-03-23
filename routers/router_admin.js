@@ -8,6 +8,6 @@ var upload = multer({ dest: 'uploads/' });
 const { fileUpload } = require('../util/multer_config');
 const uploadReportCardPdf = fileUpload.array('avatar');
 
-router.post("/upload_category",controllerAdmin.uploadCategory);
+router.post("/upload_category",jwt,controllerAdmin.uploadCategory);
 
 module.exports = router;
