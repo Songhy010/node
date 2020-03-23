@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.get('/',(req,res,next)=>{
-  res.send("Welcome to Category");
+  res.send({data:"Welcome to Category"});
 })
 app.use("/api/client",routerClient);
 app.use("/api/all",routerAll);
