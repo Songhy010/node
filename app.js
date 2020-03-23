@@ -5,12 +5,17 @@ const routerClient = require("./routers/router_client");
 const routerAll = require("./routers/router_all");
 const routerAdmin = require("./routers/router_admin");
 
+const port = process.env.PORT || 3000;
+
 
 const db = require("./util/db_config");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
+app.get('/',(req,res,next)=>{
+  res.send("Welcome to Category");
+})
 app.use("/api/client",routerClient);
 app.use("/api/all",routerAll);
 app.use("/api/admin",routerAdmin);
@@ -42,7 +47,7 @@ app.use((err, req, res, next) => {
 db.authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
-    app.listen(3000,res=>{console.log("server started")});
+    app.listen(port,res=>{console.log("server started")});
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
