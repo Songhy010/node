@@ -158,5 +158,5 @@ exports.getCategory = async (req,res,next)=>{
 }
 
 exports.test = async (req,res,next)=>{
-    res.send({data:"Welcome to Category"});
+    res.send({data:"Welcome to Catalog"});
 }
