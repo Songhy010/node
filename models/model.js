@@ -76,3 +76,60 @@ exports.getCategory = async (lang_id)=>{
     });
     return query;
 }
+
+exports.getCategory = async (lang_id)=>{
+    const query = await db.query(script.getCategory,{
+        replacements: {
+            lang_id
+          },
+          type: db.QueryTypes.SELECT
+    });
+    return query;
+}
+
+exports.createCompany = async(company_name,company_address,company_lat,company_long,company_phone,company_email,company_website,company_logo,company_code)=>{
+    const query = await db.query(script.createCompany,{
+        replacements: {
+            company_name,
+            company_address,
+            company_lat,
+            company_long,
+            company_phone,
+            company_email,
+            company_website,
+            company_logo,
+            company_code
+          },
+    });
+    return {code:200,message:"success"};
+}
+
+exports.getCompanyId = async (company_code)=>{
+    const query = await db.query(script.getCompanyId,{
+        replacements: {
+            company_code
+          },
+          type: db.QueryTypes.SELECT
+    });
+    return query[0];
+}
+
+exports.uploadCompanyUser = async (user_id,company_id)=>{
+    const query = await db.query(script.uploadCompanyUser,{
+        replacements: {
+            user_id,
+            company_id
+          },
+    });
+    return {code:200,message:"success"};
+}
+
+exports.uploadCompanyCategory = async (company_id,category_id)=>{
+    const query = await db.query(script.uploadCompanyCatagory,{
+        replacements: {
+            company_id,
+            category_id
+          },
+    });
+    return {code:200,message:"success"};
+}

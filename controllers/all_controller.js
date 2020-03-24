@@ -40,7 +40,7 @@ exports.register = async (req,res,next)=>{
        
         if(user){
             const err = Error("User existed!");
-            err.code = 0;
+            err.code = 401;
             next(err);
         }else{
             const hashPass = await bcrypt.hash(user_password,12);
@@ -72,12 +72,12 @@ exports.login = async (req,res,next)=>{
                 res.send({data:userFormate(data),token,code:200});
             }else{
                 const err = Error("Incorrect Password");
-                err.code = -1;
+                err.code = 402;
                 next(err);
             }
         }else{
             const err = Error("Incorrect Username!");
-            err.code = -1;
+            err.code = 402;
             next(err);
         }
 
@@ -104,7 +104,7 @@ exports.changePassword = async (req,res,next)=>{
             res.send(data);
         }else{
             const err = Error("Incorrect Password");
-            err.code = -1;
+            err.code = 402;
             next(err);
         } 
     } catch (error) {
@@ -131,7 +131,7 @@ exports.updateProfile = async (req,res,next)=>{
            res.send({data:userFormate(user),code:200}); 
         }else{
             const err = Error("Incorrect phone number");
-            err.code = -1;
+            err.code = 402;
             next(err);
         }
     } catch (error) {
