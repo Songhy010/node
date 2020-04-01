@@ -12,3 +12,11 @@ exports.createCompany = "INSERT INTO company(company_name,company_address,compan
 exports.getCompanyId = "SELECT company_id FROM company WHERE company_code = :company_code";
 exports.uploadCompanyUser = "INSERT INTO user_company(user_id,company_id) VALUES(:user_id,:company_id)";
 exports.uploadCompanyCatagory = "INSERT INTO company_category(company_id,category_id) VALUES(:company_id,:category_id)";
+exports.getComapany = "SELECT * FROM company_category CC "+
+"INNER JOIN company CN ON CC.company_id = CN.company_id "+
+"INNER JOIN category CR ON CC.category_id = CR.category_id "+
+"INNER JOIN category_translate CT ON CT.category_id = CR.category_id "+
+"INNER JOIN user_company UC ON UC.company_id = CN.company_id "+
+"INNER JOIN user US ON US.user_id = UC.user_id "+
+"WHERE CT.lang_id = 1 AND CN.company_id = :company_id";
+exports.checkCompanyCategoryExist  = "SELECT * FROM company_category WHERE company_id = :company_id AND category_id = :category_id";

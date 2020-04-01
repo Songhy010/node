@@ -10,6 +10,7 @@ const { fileUpload } = require('../util/multer_config');
 const uploadReportCardPdf = fileUpload.array('avatar');
 
 router.post('/create_company',jwt,clientController.createCompany);
+router.post('/company_category',jwt,clientController.uploadCompanyCategory);
 router.post("/upload",uploadReportCardPdf,clientController.upload);
 router.get("/test",clientController.test);
 module.exports = router;

@@ -133,3 +133,24 @@ exports.uploadCompanyCategory = async (company_id,category_id)=>{
     });
     return {code:200,message:"success"};
 }
+
+exports.getCompany = async(company_id)=>{
+    const query = await db.query(script.getComapany,{
+        replacements: {
+            company_id
+        },
+        type: db.QueryTypes.SELECT
+    });
+    return query[0];
+}
+
+exports.checkCompanyCategoryExist = async(company_id,category_id)=>{
+    const query = await db.query(script.checkCompanyCategoryExist,{
+        replacements: {
+            company_id,
+            category_id
+        },
+        type: db.QueryTypes.SELECT
+    });
+    return query[0];
+}
